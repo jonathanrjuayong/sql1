@@ -3,7 +3,7 @@ Homework
 """
 
 import sqlite3
-
+"""
 with sqlite3.connect("cars.db") as conn:
 	c = conn.cursor()
 	
@@ -13,19 +13,22 @@ with sqlite3.connect("cars.db") as conn:
 	       "Civic count:":"SELECT count(Model) FROM Orders WHERE Model = 'Civic' ",
 	       "Accord count:":"SELECT count(Model) FROM Orders WHERE Model = 'Accord' ",}
 	
-	c.execute("""SELECT Inventory.Model, Inventory.Make, Inventory.Quantity
-	             FROM Inventory""")
-	             
+	for keys, values in sql.items():
+		c.execute(values)
+		results = c.fetchone()
+		print(keys , results[0])
+"""
+		
+with sqlite3.connect("cars.db") as conn:
+	c = conn.cursor()
+	
+	c.execute("""SELECT * FROM Inventory""")
+	
 	for r in c.fetchall():
-		print(r[0],r[1],r[2])
-		for keys, values in sql.items():
-			c.execute(values)
-			results = c.fetchall()
-			print(keys[results] + ":", results[0])
-			
-	
-	
-		
-			
-		
-		
+		print(r[0],r[1], "\n","Quantity:", r[2])	
+		c.execute("""SELECT count(OrderDate)
+		             FROM Orders 
+		             WHERE Make=? and Model=?""",(r[0],r[1]))
+		order_count = c.fetchone()[0]
+		print("Orders",order_count)	
+		print()
