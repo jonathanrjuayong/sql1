@@ -8,15 +8,17 @@ import random
 with sqlite3.connect("newnum.db") as conn:
 	c = conn.cursor()
 	
-	rand_num = ()
+	rand_num = []
 	
-	for num in range(1,100):
+	for num in range(1,101):
+		list = []
 		random_int = random.randint(1,100)
-		rand_num.append(random_int)
+		list.append(random_int)
+		rand_num.append(tuple(list))
 	
-	data = rand_num
-	print(data)
+	print(rand_num)
 	
 	#c.execute("""CREATE TABLE Integers(Integers INT)""")
-	#c.execute("""INSERT INTO Integers VALUES(?), data""")
+	c.executemany("""INSERT INTO Integers VALUES(?)""",rand_num)
+	
 	
